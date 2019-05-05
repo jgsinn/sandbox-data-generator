@@ -40,7 +40,7 @@ $ newman run sandbox_data_generator.postman_collection --global-var "subdomain=S
 ## Getting started - UI
 We also provide a front end UI to easily run the sandbox data generation script. To run this in the UI, start a web server from the main directory which contains the index.html file:
 
-`$ http-server`
+`$ npm run recurly`
 
 You should see something like the following:
 ```
