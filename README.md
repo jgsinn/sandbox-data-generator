@@ -33,7 +33,7 @@ To run the postman collection in your command line, ensure that you have Node.js
 Navigate to the directory where you cloned this repository in your terminal. Run the following command entering your own subdomain, apikey, and the number of iterations that you want to run the collection. 
 
 ```
-$ newman run sandbox_data_generator.postman_collection --global-var "subdomain=SUBDOMAIN" --global-var "apiKey=APIKEY" -n NUMBER
+$ npm run recurly-sdg -- --global-var "subdomain=SUBDOMAIN" --global-var "apiKey=APIKEY" -n NUMBER
 ````
 
 
