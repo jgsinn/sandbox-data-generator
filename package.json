@@ -4,7 +4,8 @@
   "description": "Recurly Sandbox Generation App",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "browserify app.js -o bundle.js",
+    "server": "http-server"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,8 @@
     "http-server": "^0.11.1",
     "newman": "^4.4.1"
   },
-  "keywords": []
+  "keywords": [],
+  "devDependencies": {
+    "browserify": "^16.2.3"
+  }
 }

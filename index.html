@@ -1,99 +1,87 @@
 <!DOCTYPE html>
 <html>
-<script type="text/javascript" src="/scripts.js"></script>
-    <title>Recurly Test Site</title>
-    <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Recurly Test Site</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-                        <style>
-                            .recurlyimage {width:50%;}
-                            body {font-family: "Lato", sans-serif}
-                            .mySlides {display: none}
-                        </style>
+<style>
+    .recurlyimage {
+        width: 50%;
+    }
 
-                        <body>
+    body {
+        font-family: "Lato", sans-serif
+    }
 
-                            <!-- Navbar -->
-                            <div class="w3-top">
-                                <div class="w3-bar w3-black w3-card-2">
-                                    <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
-                                </div>
-                            </div>
+    .mySlides {
+        display: none
+    }
+</style>
 
-                            <!-- Page content -->
-                            <div class="w3-content" style="max-width:2000px;margin-top:46px">
+<body>
 
+    <!-- Navbar -->
+    <div class="w3-top">
+        <div class="w3-bar w3-black w3-card-2">
+            <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+        </div>
+    </div>
 
-                                <!-- The Top Banner -->
-                                <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
-                                    <img class="recurlyimage" src="https://recurly.com/img2/logo-purple.svg">
-                                    <h2 class="w3-wide">Sandbox Data Generator</h2>
-                                    <p class="w3-opacity"><i>We love subscriptions</i></p>
-                                    <p class="w3-justify"> </p>
-                                </div>
+    <!-- Page content -->
+    <div class="w3-content" style="max-width:2000px;margin-top:46px">
 
-                                <!-- The Info Banner -->
-                                <div class="w3-black" id="tour">
-                                    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
-                                        <h2 class="w3-wide w3-center">This site is designed to help you fill your sandbox site with accurate test data.</h2>
-                                        <p class="w3-opacity w3-center"><i></i></p><br>
-                                    </div>
-                                </div>
+        <!-- The Top Banner -->
+        <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+            <img class="recurlyimage" src="https://recurly.com/img2/logo-purple.svg">
+            <h2 class="w3-wide">Sandbox Data Generator</h2>
+            <p class="w3-opacity"><i>We love subscriptions</i></p>
+            <p class="w3-justify"> </p>
+        </div>
 
+        <!-- The Info Bannerr -->
+        <div class="w3-black" id="tour">
+            <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+                <h2 class="w3-wide w3-center">This site is designed to help you fill your sandbox site with accurate test data.</h2>
+                <p class="w3-opacity w3-center"><i></i></p>
+                <br>
+            </div>
+        </div>
 
-                              </div>
+    </div>
 
-                                <!-- The Contact Section -->
-                                <div class="w3-container w3-content w3-padding-64" style="max-width:100%" id="contact">
-                                    <h2 class="w3-wide w3-center">CONFIGURATION</h2>
-                                    <p class="w3-opacity w3-center"><i>Enter your Subdomain, API Key, and the number attempted purchases you'd like to make.</i></p>
+    <!-- The Contact Section -->
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%" id="contact">
+        <h2 class="w3-wide w3-center">CONFIGURATION</h2>
+        <p class="w3-opacity w3-center"><i>Enter your Subdomain, API Key, and the number attempted purchases you'd like to make.</i></p>
 
-                                    <form name="inputForm" action="" method="GET">
-                                        <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
-                                            <div class="w3-half">
-                                                <input class="w3-input w3-border" type="text" placeholder="Subdomain" required name="subdomain">
-                                            </div>
+        <form name="inputForm" action="" method="GET">
+            <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+                <div class="w3-half">
+                    <input class="w3-input w3-border" type="text" placeholder="Subdomain" required name="subdomain">
+                </div>
 
-                                            <div class="w3-half">
-                                                <input class="w3-input w3-border" type="text" placeholder="API Key" required name="apikey">
-                                            </div>
-                                        </div>
-                                        <input class="w3-input w3-border" type="text" placeholder="Number of Iterations" required name="number">
-                                            <button class="w3-button w3-black w3-section w3-right" type="submit" onClick="runGenerator(this.form)">SEND</button>
-                                      </form>
+                <div class="w3-half">
+                    <input class="w3-input w3-border" type="text" placeholder="API Key" required name="apikey">
+                </div>
+            </div>
+            <input class="w3-input w3-border" type="text" placeholder="Number of Iterations" required name="number">
+            <button class="w3-button w3-black w3-section w3-right" type="submit" onClick="runGenerator(this.form)">SEND</button>
+        </form>
 
-                                </div>
+    </div>
 
-                                <!-- End Page Content -->
-                          </div>
+    <!-- End Page Content -->
+    </div>
 
+    <!-- Footer -->
+    <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge"></footer>
 
-                            <!-- Footer -->
-                            <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge"></footer>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="bundle.js"></script>
 
-                            <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+</body>
 
-                            <script>
-                            const newman = require('newman');
-                            function runGenerator (form) {
-                                var subdomain = form.subdomain.value;
-                                var apiKey = form.apikey.value;
-                                var num = form.number.value;
-
-                                newman.run({
-                                  collection: require('/collections/sandbox_data_generator.postman_collection'),
-                                }, function (err) {
-	                                      if (err) { throw err; }
-                                   console.log('collection run complete!');
-                                });
-
-                            }
-
-                            </script>
-
-
-                        </body>
 </html>
