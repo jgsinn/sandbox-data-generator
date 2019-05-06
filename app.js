@@ -34,7 +34,7 @@ function runGenerator (form) {
 
 
     }).on('start', function (err, args) { // on start of run, log to console
-    console.log(args);
+    //alert(args);
     }).on('beforeIteration', function (err, args) { // on start of run, log to console
     //console.log(args);
     //console.log(err);
