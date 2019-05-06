@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "browserify app.js -o bundle.js",
+    "watch": "watchify app.js -o bundle.js -v",
     "recurly-data": "newman run ./collections/sandbox_data_generator.postman_collection",
     "recurly": "http-server -o"
   },
@@ -24,6 +25,7 @@
   },
   "keywords": [],
   "devDependencies": {
-    "browserify": "^16.2.3"
+    "browserify": "^16.2.3",
+    "watchify": "^3.11.1"
   }
 }

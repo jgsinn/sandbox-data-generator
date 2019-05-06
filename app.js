@@ -1,11 +1,11 @@
-const newman = require('newman');
-
-function runGenerator (form) {
+module.exports = function runGenerator (form) {
+    const newman = require('./node_modules/newman');
+    console.log("setting vars");
     var subdomain = form.subdomain.value;
     var apiKey = form.apikey.value;
     var num = form.number.value;
-
-    //alert(subdomain);
+    console.log("done setting vars");
+    //alert(subdomain + "testing this");
 
     newman.run({
       collection: './collections/sandbox_data_generator.postman_collection',
