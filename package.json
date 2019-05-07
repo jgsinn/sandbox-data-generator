@@ -6,7 +6,7 @@
   "scripts": {
     "build": "browserify app.js -o bundle.js",
     "watch": "watchify app.js -o bundle.js -v",
-    "recurly-data": "newman run ./collections/sandbox_data_generator.postman_collection",
+    "recurly-data": "newman run ./collections/sandbox_data_generator.postman_collection -r cli,htmlextra --reporter-htmlextra-title 'Recurly Sandbox Data Generator'",
     "recurly-justinsinndev": "newman run ./collections/sandbox_data_generator_justinsinndev.postman_collection",
     "recurly": "http-server -o"
   },
@@ -22,7 +22,8 @@
   "homepage": "https://github.com/jgsinn/sandbox-data-app#readme",
   "dependencies": {
     "http-server": "^0.11.1",
-    "newman": "^4.4.1"
+    "newman": "^4.4.1",
+    "newman-reporter-htmlextra": "^1.6.11"
   },
   "keywords": [],
   "devDependencies": {
