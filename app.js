@@ -1,5 +1,5 @@
 module.exports = function runGenerator (form) {
-    const newman = require('./node_modules/newman');
+    const newman = require('./node_modules/newman')
     console.log("setting vars");
     var subdomain = form.subdomain.value;
     var apiKey = form.apikey.value;
