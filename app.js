@@ -8,7 +8,7 @@ module.exports = function runGenerator (form) {
     //alert(subdomain + "testing this");
 
     newman.run({
-      collection: './collections/sandbox_data_generator.postman_collection.json',
+      collection: './collections/sandbox_data_generator.postman_collection',
       globals:
             {
                 "id": "683ad527-9279-f62f-ff8d-663df9026ca8",
