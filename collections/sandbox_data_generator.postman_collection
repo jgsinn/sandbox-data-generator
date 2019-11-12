@@ -1,0 +1,340 @@
+{
+	"info": {
+		"_postman_id": "24408ea3-e4f6-402f-adcf-0376c5606a3a",
+		"name": "Sandbox Data Generator - UPDATED",
+		"description": "Creates random accounts / subscriptions with valid information and includes the following features currently:\n\n- Random card numbers\n- Random account information\n- Pulls plan info to scatter based on current plans on subdomain\n- Scatters the ‘current_period_ends’ using the postpone endpoint ( 1- 29 days)\n- Simulates failures on renewals by updating around 7-8% to failed cards",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Purchase Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d62bb058-bff9-4e5c-86c1-9fc2f247f552",
+						"exec": [
+							"if (pm.info.iteration === 0) {",
+							"    pm.test(\"Set Up Subdomain Plans\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"    ",
+							"}",
+							"",
+							"",
+							"if (pm.info.iteration !== 0) {",
+							"",
+							"if (pm.response.code === 422) {",
+							"pm.test(\"Failed Sign Up\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"}",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"if (pm.response.code === 201) {",
+							"",
+							"",
+							"pm.test(\"Successful Subscription Created\", function () {",
+							"var jsonObject3 = xml2Json(responseBody);",
+							"var fullurl = jsonObject3.invoice_collection.charge_invoice.account.$.href;",
+							"var url = fullurl.split(\"/\");",
+							"var guid = url[5];",
+							"var subdomain = pm.globals.get(\"subdomain\");",
+							"var apiKey2 = pm.globals.get(\"apiKey\");",
+							"",
+							"",
+							"const subGETRequest = {",
+							"  url: 'https://' + subdomain + '.recurly.com/v2/accounts/' + guid + '/subscriptions',",
+							"  method: 'GET',",
+							"  header: {\"Authorization\": \"Basic \" + btoa(apiKey2),",
+							"           'Content-Type':'application/xml',",
+							"           'X-Api-Version':'2.17',",
+							"           'charset':'utf-8',",
+							"           'Accept':'application/xml'}",
+							"};",
+							"",
+							"pm.sendRequest(subGETRequest, function (err, res) {",
+							"",
+							"    var jsonObject4 = xml2Json(res.text());",
+							"    var full_uuid = jsonObject4.subscriptions.subscription.$.href; ",
+							"    var url2 = full_uuid.split(\"/\");",
+							"    var uuid = url2[5];",
+							"    ",
+							"    pm.environment.set(\"uuid1\", uuid); // Stores subscrption uuid to env variable",
+							"",
+							"});",
+							"",
+							"",
+							"",
+							"var date = new Date();",
+							"var postpone_date2 = date.addDays(Math.floor(Math.random() * 30)); ",
+							"pm.environment.set(\"postpone_date4\", postpone_date2);",
+							"var postpone_date3 = pm.environment.get(\"postpone_date4\");",
+							"var uuid = pm.environment.get(\"uuid1\");",
+							"",
+							"const postponePutRequest = {",
+							"  url: 'https://' + subdomain + '.recurly.com/v2/subscriptions/' + uuid + '/postpone?next_bill_date=' + postpone_date3.toISOString(),",
+							"  method: 'PUT',",
+							"  header: {\"Authorization\": \"Basic \" + btoa(apiKey2),",
+							"           'Content-Type':'application/xml',",
+							"           'X-Api-Version':'2.17',",
+							"           'charset':'utf-8',",
+							"           'Accept':'application/xml'}",
+							"};",
+							"",
+							"pm.sendRequest(postponePutRequest, function (err, res) {",
+							"    ",
+							"",
+							"});",
+							"",
+							"",
+							"totalSubs = pm.environment.get(\"subs\");",
+							"plus = parseInt(totalSubs, 10) + 1;",
+							"pm.environment.set(\"subs\", plus);",
+							"",
+							"//var subdomain = pm.globals.get(\"subdomain\");",
+							"//var apiKey2 = pm.globals.get(\"apiKey\");",
+							"var odds = Math.floor(Math.random() * 100);",
+							"console.log(odds);",
+							"",
+							"if (odds < 10){",
+							"",
+							"const billingUpdateRequest = {",
+							"  url: 'https://' + subdomain + '.recurly.com/v2/accounts/' + guid + '/billing_info',",
+							"  method: 'PUT',",
+							"  header: {\"Authorization\": \"Basic \" + btoa(apiKey2),",
+							"           'Content-Type':'application/xml',",
+							"           'X-Api-Version':'2.17',",
+							"           'charset':'utf-8',",
+							"           'Accept':'application/xml'},",
+							"  body: {",
+							"        mode: 'raw',",
+							"        raw: '<billing_info><number>4000-0000-0000-0341</number><verification_value>123</verification_value><month>11</month><year>2023</year></billing_info>'",
+							"    }",
+							"};",
+							"",
+							"pm.sendRequest(billingUpdateRequest, function (err, res) {",
+							"",
+							"});",
+							" ",
+							"}",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});}}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0135e760-a860-42a2-8de3-f3f3256692d3",
+						"exec": [
+							"pm.sendRequest(\"https://randomuser.me/api/?nat=us,au,ca,de,fr,gb\", function (err, response) {",
+							"    ",
+							"",
+							"    var numbers = [4222222222222,4222222222222,4222222222222,4222222222222,4222222222222,4222222222222,4222222222222,4222222222222,4222222222222,4222222222222,4222222222222,4222222222222220,4222222222222220,4222222222222220,30569309025904,30569309025904,30569309025904,378282246310005,378282246310005,378282246310005,378282246310005,378282246310005,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,353011133330000000,353011133330000000,353011133330000000,4000000000000002,4000000000000036,4000000000000069,4000000000000077,4000000000000101,4000000000000101,4012888888881881,4012888888881881,4012888888881881,4012888888881881,4012888888881881,4012888888881881,4012888888881881,4012888888881881,4012888888881881,4012888888881881,4111111111111111,4111111111111111,4111111111111111,4111111111111111,4111111111111111,4111111111111111,4111111111111111,4111111111111111,5105105105105100,5105105105105100,5105105105105100,5105105105105100,5105105105105100,5105105105105100,5105105105105100,5105105105105100,5105105105105100,5105105105105100,5105105105105100,5555555555554444,5555555555554444,5555555555554444,5555555555554444,5555555555554444,5555555555554444,5555555555554444,5555555555554444,5555555555554444,5555555555554444,5555555555554444,6011111111111117,6011111111111117,6011111111111117,6011111111111117,6011111111111117,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,2223000048400011,371449635398431,371449635398431,371449635398431,371449635398431,371449635398431]",
+							"    ",
+							"    var card = numbers[Math.floor(Math.random() * 100) + 1];",
+							"    ",
+							"    var month = String(Math.floor(Math.random() * 12) + 1);",
+							"    var year = \"202\" + String(Math.floor(Math.random() * 6) + 1);",
+							"    ",
+							"   if ( card == '371449635398431' || card == '378282246310005') {",
+							"        var cvv = '3443';",
+							"    } else {",
+							"        var cvv = '334';",
+							"    }",
+							"    ",
+							"    ",
+							"    pm.environment.set(\"first_name\", response.json().results[0].name.first);",
+							"    pm.environment.set(\"last_name\", response.json().results[0].name.last);",
+							"    pm.environment.set(\"email\", response.json().results[0].email);",
+							"    pm.environment.set(\"phone\", response.json().results[0].cell);",
+							"    pm.environment.set(\"username\", response.json().results[0].login.username);",
+							"    pm.environment.set(\"address\", response.json().results[0].location.street.number + ' ' + response.json().results[0].location.street.name);",
+							"    pm.environment.set(\"state\", response.json().results[0].location.state);",
+							"    pm.environment.set(\"zip\", response.json().results[0].location.postcode);",
+							"    pm.environment.set(\"city\", response.json().results[0].location.city);",
+							"    pm.environment.set(\"country\", response.json().results[0].nat);",
+							"    ",
+							"    pm.environment.set(\"card\", card);",
+							"    pm.environment.set(\"cvv\", cvv);",
+							"    pm.environment.set(\"exp_month\", month);",
+							"    pm.environment.set(\"exp_year\", year);",
+							"    ",
+							"});",
+							"",
+							"",
+							"var subdomain = pm.globals.get(\"subdomain\");",
+							"var apiKey2 = pm.globals.get(\"apiKey\");",
+							"",
+							"",
+							"if (pm.info.iteration === 0){",
+							"",
+							"const planGETRequest = {",
+							"  url: 'https://' + subdomain + '.recurly.com/v2/plans',",
+							"  method: 'GET',",
+							"  header: {\"Authorization\": \"Basic \" + btoa(apiKey2),",
+							"           'Content-Type':'application/xml',",
+							"           'X-Api-Version':'2.17',",
+							"           'charset':'utf-8',",
+							"           'Accept':'application/xml'}",
+							"};",
+							"",
+							"pm.sendRequest(planGETRequest, function (err, res) {",
+							"",
+							"    var jsonObject2 = xml2Json(res.text());",
+							"",
+							"    var numPlans = jsonObject2.plans.plan.length; // Returns total amount of plans ",
+							"",
+							"    pm.environment.set(\"numPlans\", numPlans); // Stores plan_code to environment variable",
+							"    ",
+							"    for (i = 0; i < numPlans; i++)  { ",
+							"            ",
+							"            pm.environment.set(\"plan\"+ i, jsonObject2.plans.plan[i].plan_code); // Stores plan_code to environment variable",
+							"",
+							"        } ",
+							"",
+							"});",
+							" ",
+							"}",
+							"",
+							"",
+							"",
+							"var numPlans = pm.environment.get(\"numPlans\"); ",
+							"",
+							"var number = Math.floor(Math.random() * numPlans);",
+							"var plan = \"plan\" + number;",
+							"",
+							"pm.environment.set(\"plan\", plan);",
+							"",
+							"plan_name = pm.environment.get(plan); ",
+							"pm.environment.set(\"plan_name\", plan_name);",
+							"",
+							"",
+							"",
+							"Date.prototype.addDays = function(days) {",
+							"    var date = new Date(this.valueOf());",
+							"    date.setDate(date.getDate() + days);",
+							"    return date;",
+							"};"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{apiKey}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Api-Version",
+						"value": "2.10"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<purchase>\n  <collection_method>automatic</collection_method>\n  <currency>USD</currency>\n  <account>\n    <account_code>{{$guid}}</account_code>\n    <first_name>{{first_name}}</first_name>\n\t<last_name>{{last_name}}</last_name>\n\t<username>{{username}}</username>\n\t<address>\n\t\t<address1>{{address}}</address1>\n    \t<city>{{city}}</city>\n    \t<state>{{state}}</state>\n    \t<zip>{{zip}}</zip>\n    \t<country>{{country}}</country>\n\t</address>\n\t<billing_info>\n\t\t<first_name>{{first_name}}</first_name>\n\t\t<last_name>{{last_name}}</last_name>\n\t\t<address1>{{address}}</address1>\n    \t<city>{{city}}</city>\n    \t<state>{{state}}</state>\n\t\t<zip>{{zip}}</zip>\n\t\t<country>{{country}}</country>\n\t\t<number>{{card}}</number>\n\t\t<verification_value>{{cvv}}</verification_value>\n\t\t<month>{{exp_month}}</month>\n\t\t<year>{{exp_year}}</year>\n\t</billing_info>\n  </account>\n  <subscriptions>\n    <subscription>\n      <plan_code>{{plan_name}}</plan_code>\n    </subscription>\n  </subscriptions>\n</purchase>"
+				},
+				"url": {
+					"raw": "https://{{subdomain}}.recurly.com/v2/purchases",
+					"protocol": "https",
+					"host": [
+						"{{subdomain}}",
+						"recurly",
+						"com"
+					],
+					"path": [
+						"v2",
+						"purchases"
+					]
+				},
+				"description": "Steps to generate sandbox data:\n\n1. Set global variables in Postman for the 'subdomain' & 'apiKey'\n\t- Click the 'eye' near the top-right side of Postman\n\t- This will reveal a dropdown where you can set the variables\n\t- Select the 'edit' link that's to the right of the 'Globals' label\n\t- Enter your variable names exactly as follows: 'subdomain' & 'apiKey'\n\n2. Make sure the subdomain has plans set up so the script can pull the plan codes"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{apiKey}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0bed244a-a98c-4c30-88f5-b818cb246bbc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2d6f324b-48ef-4efa-bcda-136a415abb4e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "ba14d78d-1bfe-4c42-8768-87b77dd205e9",
+			"key": "account_code",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "212abe4d-5ae3-4716-95b9-d1fb912fde36",
+			"key": "first_name",
+			"value": "Hello",
+			"type": "string"
+		},
+		{
+			"id": "09d103bb-9ecb-40a4-8469-08b353545483",
+			"key": "last_name",
+			"value": "Hello",
+			"type": "string"
+		},
+		{
+			"id": "9ae12d76-16c1-4c46-a564-851e8957f434",
+			"key": "country",
+			"value": "Canada",
+			"type": "string"
+		},
+		{
+			"id": "5c94d81d-c2cf-484c-bad5-aa2826ce8214",
+			"key": "zip",
+			"value": "L3V 6K5",
+			"type": "string"
+		},
+		{
+			"id": "b18c8a4e-dd26-48b0-8ddc-ac0157e94c6a",
+			"key": "email",
+			"value": "test@recurly.com",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": []
+}
