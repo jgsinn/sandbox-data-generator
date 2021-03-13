@@ -11,7 +11,7 @@ Clone the repository:
 
 Under the repository name, near the top-left of this page, click Clone or download. In the Clone with HTTPs section, click  to copy the clone URL for the repository.
 ```
-$ git clone https://github.com/YOUR-USERNAME/sandbox-data-generator.git
+$ git clone https://github.com/jgsinn/sandbox-data-generator.git
 $ cd sandbox-data-generator
 ```
 
