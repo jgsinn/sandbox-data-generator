@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/jgsinn/sandbox-data-app#readme",
   "dependencies": {
-    "http-server": "^0.11.1",
+    "http-server": "^0.11.2",
     "newman": "^4.5.4",
     "newman-reporter-htmlextra": "^1.6.11"
   },
